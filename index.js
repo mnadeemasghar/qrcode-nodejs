@@ -1,17 +1,10 @@
-/**
- * Responds to any HTTP request.
- *
- * @param {!express:Request} req HTTP request context.
- * @param {!express:Response} res HTTP response context.
- */
+const express = require('express');
+const app = express();
+const port = 3000;
+const qrcontroller = require('./qrcontroller');
 
-const qrcode = require('qrcode');
+app.get('/qrcode', qrcontroller.qrcode);
 
-exports.helloWorld = (req, res) => {
-  let message = req.query.message || req.body.message || 'Hello World!';
-
-  const svg = await qrcode.toString(message, { type: 'svg' });
-
-  res.set('Content-Type', 'image/svg+xml');
-  res.status(200).send(svg);
-};
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
